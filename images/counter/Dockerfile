@@ -6,6 +6,8 @@ COPY counter.sh /usr/local/bin/counter.sh
 RUN chmod +x /usr/local/bin/counter.sh
 
 # Single layer: install tools, then clean apt cache to keep the image small.
+# DL3008: pinning every apt package version is impractical on an Ubuntu base.
+# hadolint ignore=DL3008
 RUN set -eux; \
 	apt-get update; \
 	apt-get install -y --no-install-recommends \
