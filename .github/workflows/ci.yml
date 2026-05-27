@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate compose file
+        run: docker compose -f compose/docker-compose.yml config --quiet
+
+      - name: Lint Dockerfile (hadolint)
+        uses: hadolint/hadolint-action@v3.1.0
+        with:
+          dockerfile: images/counter/Dockerfile
+
+      - name: Lint shell scripts (shellcheck)
+        uses: ludeeus/action-shellcheck@master
+        with:
+          additional_files: counter.sh
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Lint Python (ruff)
+        run: |
+          pip install ruff
+          ruff check cli
+
+      - name: Import-check the CLI
+        run: |
+          pip install -e cli
+          dockerctl version
