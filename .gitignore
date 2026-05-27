@@ -4,3 +4,13 @@ ETC/*
 
 # IDE
 .idea/
+
+# Local env (compose reads this; keep .env.example tracked)
+compose/.env
+
+# Python
+__pycache__/
+*.egg-info/
+.ruff_cache/
+build/
+dist/

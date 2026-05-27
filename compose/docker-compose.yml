@@ -1,0 +1,42 @@
+# Declarative replacement for the old `docker run` menu scripts.
+# Paths are relative to this file; run via `docker compose` or the Taskfile.
+#
+# Usage:
+#   docker compose --env-file .env up -d
+#   docker compose config        # validate without starting anything
+
+services:
+  # Static web server, serving ../web read-only (was Create_Web_Server.sh / nginx_exec.sh).
+  nginx:
+    image: nginx:${NGINX_TAG:-latest}
+    ports:
+      - "${NGINX_PORT:-8080}:80"
+    volumes:
+      - ../web:/usr/share/nginx/html:ro
+    restart: unless-stopped
+
+  # Apache, replacing the old (nonexistent) "apache2" image with the real httpd.
+  httpd:
+    image: httpd:${HTTPD_TAG:-latest}
+    ports:
+      - "${HTTPD_PORT:-8081}:80"
+    restart: unless-stopped
+
+  # Docker management UI, replacing the dead abh1nav/dockerui.
+  portainer:
+    image: portainer/portainer-ce:${PORTAINER_TAG:-latest}
+    ports:
+      - "${PORTAINER_PORT:-9000}:9000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+    restart: unless-stopped
+
+  # Custom image built from ../images/counter (was lab2 Dockerfile + counter.sh).
+  counter:
+    build:
+      context: ../images/counter
+    restart: unless-stopped
+
+volumes:
+  portainer_data:

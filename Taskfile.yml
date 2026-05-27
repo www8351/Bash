@@ -1,0 +1,61 @@
+# Engineering entrypoint. Install Task: https://taskfile.dev
+# Run `task` (or `task --list`) to see available targets.
+
+version: "3"
+
+env:
+  COMPOSE_FILE: compose/docker-compose.yml
+
+dotenv:
+  - compose/.env
+
+tasks:
+  default:
+    desc: List available tasks
+    cmds:
+      - task --list
+    silent: true
+
+  up:
+    desc: Start the full stack in the background
+    cmds:
+      - docker compose up -d
+
+  down:
+    desc: Stop the stack and remove containers
+    cmds:
+      - docker compose down
+
+  build:
+    desc: Build images defined in compose (the counter image)
+    cmds:
+      - docker compose build
+
+  pull:
+    desc: Pull all referenced images
+    cmds:
+      - docker compose pull
+
+  logs:
+    desc: Tail logs from all services
+    cmds:
+      - docker compose logs -f
+
+  clean:
+    desc: Stop the stack and remove its volumes
+    cmds:
+      - docker compose down --volumes
+
+  lint:
+    desc: Run all linters (compose, Dockerfile, shell, python)
+    cmds:
+      - docker compose config --quiet
+      - hadolint images/counter/Dockerfile
+      - shellcheck images/counter/counter.sh legacy/Docker/**/*.sh legacy/Docker/*.sh
+      - ruff check cli
+
+  cli:
+    desc: 'Run the dockerctl CLI, e.g. `task cli -- images pull nginx:latest`'
+    dir: cli
+    cmds:
+      - python -m dockerctl {{.CLI_ARGS}}
