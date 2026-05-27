@@ -2,9 +2,88 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
-		<title>Bash Docker labs</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>nginx · Docker labs</title>
+		<style>
+			:root {
+				color-scheme: light dark;
+				--bg: #0f172a;
+				--card: rgba(255, 255, 255, 0.06);
+				--border: rgba(255, 255, 255, 0.12);
+				--text: #f1f5f9;
+				--muted: #94a3b8;
+				--accent: #38bdf8;
+			}
+			* { box-sizing: border-box; }
+			body {
+				margin: 0;
+				min-height: 100vh;
+				display: grid;
+				place-items: center;
+				padding: 1.5rem;
+				font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+				color: var(--text);
+				background:
+					radial-gradient(1200px 600px at 20% -10%, #1e3a8a55, transparent),
+					radial-gradient(900px 500px at 100% 0%, #0ea5e933, transparent),
+					var(--bg);
+			}
+			.card {
+				width: min(560px, 100%);
+				padding: 2.5rem;
+				border: 1px solid var(--border);
+				border-radius: 16px;
+				background: var(--card);
+				backdrop-filter: blur(8px);
+				box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+			}
+			.badge {
+				display: inline-flex;
+				align-items: center;
+				gap: 0.5rem;
+				font-size: 0.8rem;
+				font-weight: 600;
+				letter-spacing: 0.04em;
+				text-transform: uppercase;
+				color: var(--accent);
+			}
+			.dot {
+				width: 8px;
+				height: 8px;
+				border-radius: 50%;
+				background: #22c55e;
+				box-shadow: 0 0 0 4px #22c55e22;
+			}
+			h1 {
+				margin: 1rem 0 0.5rem;
+				font-size: 1.9rem;
+				line-height: 1.2;
+			}
+			p {
+				margin: 0;
+				color: var(--muted);
+				line-height: 1.6;
+			}
+			code {
+				font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+				font-size: 0.85em;
+				padding: 0.1rem 0.4rem;
+				border-radius: 6px;
+				background: rgba(56, 189, 248, 0.12);
+				color: var(--accent);
+			}
+		</style>
 	</head>
 	<body>
-		<h1>Served by nginx from a mounted volume.</h1>
+		<main class="card">
+			<span class="badge"><span class="dot"></span>nginx · running</span>
+			<h1>Served from a mounted volume</h1>
+			<p>
+				This page lives in <code>web/index.html</code> and is mounted
+				read-only into the nginx container by
+				<code>docker compose</code>. Edit the file on the host and refresh —
+				no rebuild required.
+			</p>
+		</main>
 	</body>
 </html>
