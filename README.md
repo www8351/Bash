@@ -14,7 +14,6 @@ with separated concerns: declarative infra, a typed CLI, and a task runner.
 | `cli/` | `dockerctl` — non-interactive Python (Typer) CLI for dynamic image/container ops. |
 | `Taskfile.yml` | Engineering entrypoint over compose + CLI. |
 | `.github/workflows/ci.yml` | Lints compose, Dockerfile, shell, and Python on every push. |
-| `legacy/Docker/` | Original bash scripts (modernized), kept for history. |
 
 ## Quick start
 

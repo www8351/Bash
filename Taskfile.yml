@@ -51,7 +51,7 @@ tasks:
     cmds:
       - docker compose config --quiet
       - hadolint images/counter/Dockerfile
-      - shellcheck images/counter/counter.sh legacy/Docker/**/*.sh legacy/Docker/*.sh
+      - shellcheck images/counter/counter.sh
       - ruff check cli
 
   cli:
